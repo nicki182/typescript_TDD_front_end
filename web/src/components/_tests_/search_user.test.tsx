@@ -20,7 +20,7 @@ describe('Component Search User', () => {
             const wrapper = shallow(
                     <Search_User UsersUpdate={mockStore.dispatch}/>
             );
-            expect(wrapper.find('button')).toHaveLength(1)
+            expect(wrapper.find('button[type=submit]')).toHaveLength(1)
         }),
         it('testing response in query', async () => {
             const mocks = [

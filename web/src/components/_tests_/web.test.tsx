@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer'
+/*import puppeteer from 'puppeteer'
 import * as React from 'react';
 describe('Web app testing from client point', () => {
     it('test web from client in Page route', async () => {
@@ -30,4 +30,4 @@ describe('Web app testing from client point', () => {
             await page.click('button')
             await browser.close()
         },10000)
-        })
+        })*/

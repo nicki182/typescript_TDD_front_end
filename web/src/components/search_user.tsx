@@ -2,8 +2,6 @@ import * as React from 'react'
 import {FILTER_USER} from "./graphql/resolvers";
 import {useLazyQuery} from '@apollo/react-hooks'
 import {FunctionComponent, useState} from "react";
-import * as BootStrap from "react-bootstrap";
-import {Col, Form, Row} from "react-bootstrap";
 interface UsersUpdate {
     UsersUpdate:React.Dispatch<React.SetStateAction<[{name:string,lastname:string,password:string}]>>
 }
