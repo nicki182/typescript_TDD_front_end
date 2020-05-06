@@ -28,5 +28,4 @@ const Table:React.FunctionComponent<users>=(props)=>{
     </div>
 )
 }
-
-export default Table;
+export default Table

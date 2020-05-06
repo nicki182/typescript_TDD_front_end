@@ -26,86 +26,95 @@ const Register:FunctionComponent=()=>{
           alert(data.registerUser)
       }
       }
+    const handleInputName=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        if (/[a-z-A-Z]/.test(e.target.value)) {
+            e.target.setCustomValidity('')
+            setName(e.target.value)
+        }
+        else{
+            e.target.setCustomValidity('You need to have letters in your name')
+        }
+    }
+    const handleInputLastname=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        if (/[a-z-A-Z]/.test(e.target.value)) {
+            e.target.setCustomValidity('')
+            setLastname(e.target.value)
+        }
+        else{
+            e.target.setCustomValidity('You need to have letters in your name')
+        }
+    }
+    const handleInputEmail=(e:React.ChangeEvent<HTMLInputElement>)=>{
+            if (e.target.value.length>8 &&  /[0-9]/.test(e.target.value) && /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(e.target.value)) {
+                e.target.setCustomValidity('')
+                setEmail(e.target.value)
+            }
+            else{
+                e.target.setCustomValidity('Email needs to be more than 8 characters long, needs to have a number and special characters(eg:!,(,),@)')
+            }
+        }
+    const handleInputPassword=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        setPassword(e.target.value)
+    }
+    const handleInputConfirmPassword=(e:React.ChangeEvent<HTMLInputElement>)=> {
+        if (e.target.value != password) {
+            e.target.setCustomValidity('')
+            e.target.setCustomValidity('Password and your password to Cornfirm arent the same')
+        } else {
+            setConfirm_Password(e.target.value)
+        }
+    }
+    const handleClick=(e:React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+        if(name && password && email && confirm_password && lastname){
+            registerUser()}
+        else{
+            alert('An input has not been filled')
+        }
+    }
 return (
         <BootStrap.Form>
-            <BootStrap.Form.Group as={Row} controlId="formPlaintextEmail">
+            <BootStrap.Form.Group as={Row}>
                 <Form.Label column sm="2">
                     Name
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control placeholder={'Name'} onChange={(e) => {
-                        if (/[a-z-A-Z]/.test(e.target.value)) {
-                            setName(e.target.value)
-                        }
-                        else{
-                            e.target.setCustomValidity('You need to have letters in your name')
-                        }
-                    }
-                    } />
+                    <Form.Control placeholder='Name' id="name" onChange={handleInputName} value={name}/>
                 </Col>
             </BootStrap.Form.Group>
-            <BootStrap.Form.Group as={Row} controlId="formPlaintextEmail">
+            <BootStrap.Form.Group as={Row}>
                 <Form.Label column sm="2">
                     LastName
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control placeholder={'Lastname'} onChange={(e) => {
-                        if (/[a-z-A-Z]/.test(e.target.value)) {
-                            e.target.setCustomValidity('')
-                            setLastname(e.target.value)
-                        }
-                        else{
-                            e.target.setCustomValidity('You need to have letters in your name')
-                        }
-                    }
-                    } />
+                    <Form.Control placeholder='Lastname' id="lastname" onChange={handleInputLastname} value={lastname}/>
                 </Col>
             </BootStrap.Form.Group>
-            <BootStrap.Form.Group as={Row} controlId="formPlaintextEmail">
+            <BootStrap.Form.Group as={Row}>
                 <Form.Label column sm="2">
                     Email
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control placeholder={'Email'}  onChange={(e)=>{if(e.target.value.length>8 &&  /[0-9]/.test(e.target.value) && /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(e.target.value)){
-                        e.target.setCustomValidity('')
-                        setEmail(e.target.value)
-                    }
-                    else{
-                        e.target.setCustomValidity('Your email needs to be no more than 8 characters and in needs to have a number and a special character(eg:!@#$%^&)')
-                    }
-                    }} />
+                    <Form.Control placeholder='Email'  id="email" onChange={handleInputEmail} value={email}/>
                 </Col>
             </BootStrap.Form.Group>
-            <Form.Group as={Row} controlId="formPlaintextPassword">
+            <Form.Group as={Row} >
                 <Form.Label column sm="2">
                     Password
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control type="password" placeholder="Password" onChange={e=>{setPassword(e.target.value)}}/>
+                    <Form.Control type="password" placeholder="Password" id="password" onChange={handleInputPassword} value={password}/>
                 </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId="formPlaintextPassword">
+            <Form.Group as={Row}>
                 <Form.Label column sm="2">
                     Confirm Password
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control type="password" placeholder="Password"    onChange={(e)=>{
-                        if(e.target.value!=password){
-                            e.target.setCustomValidity('')
-                            e.target.setCustomValidity('Password and your password to Cornfirm arent the same')
-                        }
-                        else{
-                            setConfirm_Password(e.target.value)
-                        }
-                    }}/>
+                    <Form.Control type="password" placeholder="Confirm Password" id="confirm_password"   onChange={handleInputConfirmPassword} value={confirm_password}/>
                 </Col>
             </Form.Group>
-            <button onClick={()=>{
-                if(name && password && email && confirm_password && lastname){
-                registerUser()}
-            else{
-                alert('An input has not been filled')
-            }}}>Send</button>
-        </BootStrap.Form>)
+            <button onClick={handleClick}>Send</button>
+        </BootStrap.Form>
+)
 }
 export default Register
