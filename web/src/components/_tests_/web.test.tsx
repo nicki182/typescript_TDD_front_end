@@ -32,5 +32,5 @@ describe('Web app testing from client point', () => {
             await page.type('input#confirm_password','123')
             await page.click('button')
             await browser.close()
-        },10000)
+        },15000)
         })

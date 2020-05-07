@@ -5,18 +5,19 @@ import {FunctionComponent, useState} from "react";
 import * as BootStrap from "react-bootstrap";
 import {Col, Form, Row} from "react-bootstrap";
 const Register:FunctionComponent=()=>{
-    const [name, setName] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirm_password,setConfirm_Password]=useState('')
+    const [name, setName] = useState({value:'',validity:false});
+    const [lastname, setLastname] = useState({value:'',validity:false});
+    const [email, setEmail] = useState({value:'',validity:false});
+    const [password, setPassword] = useState({value:'',validity:false});
+    const [confirm_password,setConfirm_Password]=useState({value:'',validity:false})
     const [registerUser, { data, error,loading}] = useMutation(REGISTER_USER,{variables:{type: {name:name,lastname:lastname,email:email,password:password}}});
     if (loading) {
         return <div>Loading...</div>;
     }
     if (error) {
         console.error(error);
-        return <div>Error!</div>;
+        alert('There has been an error connection try latter on')
+        window.location.href='/'
     }
     if(data){
       if(data.registerUser=="User registered successfully"){
@@ -29,46 +30,50 @@ const Register:FunctionComponent=()=>{
     const handleInputName=(e:React.ChangeEvent<HTMLInputElement>)=>{
         if (/[a-z-A-Z]/.test(e.target.value)) {
             e.target.setCustomValidity('')
-            setName(e.target.value)
+            setName({value:e.target.value,validity:true})
         }
         else{
+            setName({value:e.target.value,validity: false})
             e.target.setCustomValidity('You need to have letters in your name')
         }
     }
     const handleInputLastname=(e:React.ChangeEvent<HTMLInputElement>)=>{
         if (/[a-z-A-Z]/.test(e.target.value)) {
             e.target.setCustomValidity('')
-            setLastname(e.target.value)
+            setLastname({value:e.target.value,validity:true})
         }
         else{
             e.target.setCustomValidity('You need to have letters in your name')
+            setLastname({value:e.target.value,validity:false})
         }
     }
     const handleInputEmail=(e:React.ChangeEvent<HTMLInputElement>)=>{
             if (e.target.value.length>8 &&  /[0-9]/.test(e.target.value) && /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(e.target.value)) {
                 e.target.setCustomValidity('')
-                setEmail(e.target.value)
+                setEmail({value:e.target.value,validity:true})
             }
             else{
                 e.target.setCustomValidity('Email needs to be more than 8 characters long, needs to have a number and special characters(eg:!,(,),@)')
+                setEmail({value:e.target.value,validity:false})
             }
         }
     const handleInputPassword=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        setPassword(e.target.value)
+        setPassword({value:e.target.value,validity:true})
     }
     const handleInputConfirmPassword=(e:React.ChangeEvent<HTMLInputElement>)=> {
-        if (e.target.value != password) {
-            e.target.setCustomValidity('')
+        if (e.target.value != password.value) {
+            setConfirm_Password({value:e.target.value,validity:false})
             e.target.setCustomValidity('Password and your password to Cornfirm arent the same')
         } else {
-            setConfirm_Password(e.target.value)
+            e.target.setCustomValidity('')
+            setConfirm_Password({value:e.target.value,validity:true})
         }
     }
     const handleClick=(e:React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
-        if(name && password && email && confirm_password && lastname){
+        if(name.validity && password.validity && email.validity && confirm_password.validity && lastname.validity){
             registerUser()}
         else{
-            alert('An input has not been filled')
+            alert('An input has not been filled or completed incorrectly')
         }
     }
 return (
@@ -78,7 +83,7 @@ return (
                     Name
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control placeholder='Name' id="name" onChange={handleInputName} value={name}/>
+                    <Form.Control placeholder='Name' id="name" onChange={handleInputName} value={name.value}/>
                 </Col>
             </BootStrap.Form.Group>
             <BootStrap.Form.Group as={Row}>
@@ -86,7 +91,7 @@ return (
                     LastName
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control placeholder='Lastname' id="lastname" onChange={handleInputLastname} value={lastname}/>
+                    <Form.Control placeholder='Lastname' id="lastname" onChange={handleInputLastname} value={lastname.value}/>
                 </Col>
             </BootStrap.Form.Group>
             <BootStrap.Form.Group as={Row}>
@@ -94,7 +99,7 @@ return (
                     Email
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control placeholder='Email'  id="email" onChange={handleInputEmail} value={email}/>
+                    <Form.Control placeholder='Email' id="email" onChange={handleInputEmail} value={email.value}/>
                 </Col>
             </BootStrap.Form.Group>
             <Form.Group as={Row} >
@@ -102,7 +107,7 @@ return (
                     Password
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control type="password" placeholder="Password" id="password" onChange={handleInputPassword} value={password}/>
+                    <Form.Control type="password" placeholder="Password" id="password" onChange={handleInputPassword} value={password.value}/>
                 </Col>
             </Form.Group>
             <Form.Group as={Row}>
@@ -110,7 +115,7 @@ return (
                     Confirm Password
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control type="password" placeholder="Confirm Password" id="confirm_password"   onChange={handleInputConfirmPassword} value={confirm_password}/>
+                    <Form.Control type="password" placeholder="Confirm Password" id="confirm_password"   onChange={handleInputConfirmPassword} value={confirm_password.value}/>
                 </Col>
             </Form.Group>
             <button onClick={handleClick}>Send</button>

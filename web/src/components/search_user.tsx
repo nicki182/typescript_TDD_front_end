@@ -14,7 +14,8 @@ const Search_User:FunctionComponent<UsersUpdate>=({UsersUpdate:UsersUpdate})=>{
     }
     if (error) {
         console.error(error);
-        return <div>Error!</div>;
+        alert('There has been an error connection try latter on')
+        window.location.href='/'
     }
     if(data){
         UsersUpdate(data.filterUser)

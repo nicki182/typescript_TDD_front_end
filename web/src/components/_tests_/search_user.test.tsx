@@ -8,6 +8,7 @@ const wait = require('waait');
 import {FILTER_USER} from "../graphql/resolvers";
 import {SetStateAction, useState, useState as useStateMock} from "react";
 import {init} from "http-proxy-middleware/dist/handlers";
+import {act} from "react-dom/test-utils";
 describe('Component Search User', () => {
         beforeAll(async () => {
             Enzyme.configure({adapter: new Adapter()});
@@ -47,7 +48,7 @@ describe('Component Search User', () => {
                 <MockedProvider mocks={mocks} addTypename={false}>
                     <Search_User UsersUpdate={setHookState}/>
                 </MockedProvider>
-            );
-            await wait(0);
+            )
+                await wait(0);
         })
     })
